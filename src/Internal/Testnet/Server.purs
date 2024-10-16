@@ -214,7 +214,7 @@ startTestnetCluster cfg cleanupRef = do
     annotateError "Could not start cardano-testnet" $
       startCardanoTestnet cfg.clusterConfig cleanupRef
 
-  { paths } <- waitUntil (Milliseconds 4000.0)
+  { paths } <- waitUntil (Milliseconds 8000.0)
     $ map hush
     $ tryAndLogErrors "Waiting for ready state"
     $ liftEffect do
@@ -292,6 +292,7 @@ spawnCardanoTestnet workdir params = do
       , env = Just $ Object.union env' env
       , detached = true
       }
+  Aff.delay (Milliseconds 3000.0)
   spawn "cardano-testnet" options opts Nothing
   where
   flag :: String -> String
